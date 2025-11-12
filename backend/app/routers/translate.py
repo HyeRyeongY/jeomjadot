@@ -16,11 +16,13 @@ async def translate_to_braille(request: TranslateRequest) -> TranslateResponse:
 
     - **text**: 변환할 한글 텍스트
     - **use_liblouis**: libLouis 사용 여부 (기본값: False)
+    - **use_advanced_rules**: 국립국어원 규정 적용 (숫자, 영문, 약자 등) (기본값: True)
+    - **use_contractions**: 약자 사용 여부 (기본값: True)
 
     Returns:
         - **original_text**: 원본 텍스트
         - **braille**: 점자 결과
-        - **method**: 사용된 변환 방법
+        - **method**: 사용된 변환 방법 (rule-based, advanced, 또는 liblouis)
         - **success**: 성공 여부
         - **error**: 오류 메시지 (있을 경우)
     """
@@ -45,7 +47,9 @@ async def translate_to_braille(request: TranslateRequest) -> TranslateResponse:
         # 점자 변환 수행
         braille, method = converter.convert(
             text=request.text,
-            use_liblouis=request.use_liblouis
+            use_liblouis=request.use_liblouis,
+            use_advanced_rules=request.use_advanced_rules,
+            use_contractions=request.use_contractions
         )
 
         return TranslateResponse(

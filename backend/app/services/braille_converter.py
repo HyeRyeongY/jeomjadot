@@ -5,6 +5,7 @@ Rule-based 변환과 libLouis fallback 지원
 
 from typing import Literal
 from app.services.korean_braille import text_to_braille
+from app.services.advanced_braille_converter import advanced_converter
 
 
 class BrailleConverter:
@@ -22,14 +23,18 @@ class BrailleConverter:
     def convert(
         self,
         text: str,
-        use_liblouis: bool = False
-    ) -> tuple[str, Literal["rule-based", "liblouis"]]:
+        use_liblouis: bool = False,
+        use_advanced_rules: bool = True,
+        use_contractions: bool = True
+    ) -> tuple[str, Literal["rule-based", "advanced", "liblouis"]]:
         """
         텍스트를 점자로 변환
 
         Args:
             text: 변환할 텍스트
             use_liblouis: libLouis 사용 여부
+            use_advanced_rules: 국립국어원 규정 적용 여부 (숫자, 영문, 약자 등)
+            use_contractions: 약자 사용 여부
 
         Returns:
             (점자 결과, 사용된 방법) 튜플
@@ -46,7 +51,12 @@ class BrailleConverter:
                 # libLouis 실패 시 rule-based로 fallback
                 pass
 
-        # Rule-based 변환 (기본)
+        # 고급 규칙 적용 (국립국어원 규정)
+        if use_advanced_rules:
+            braille = advanced_converter.convert(text, use_contractions=use_contractions)
+            return braille, "advanced"
+
+        # 기본 Rule-based 변환
         braille = text_to_braille(text)
         return braille, "rule-based"
 
