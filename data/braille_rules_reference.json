@@ -127,11 +127,26 @@
       "description": "자주 사용하는 단어나 어미를 줄여서 표기하는 규칙",
       "rules": [
         {
-          "title": "전부 약자 (1음절)",
-          "note": "한 글자 전체를 약자 하나로 표기",
+          "title": "전부 약자 (1음절) - 초성+ㅏ",
+          "note": "초성+ㅏ 형태의 글자는 초성만 표기 (가, 나, 다, 마, 바, 사, 자, 카, 타, 파, 하)",
           "examples": [
-            { "korean": "가", "braille": "⠫", "description": "가 전부 약자" },
-            { "korean": "나", "braille": "⠉", "description": "나 전부 약자" },
+            { "korean": "가", "braille": "⠈", "description": "가 전부 약자 (초성 ㄱ만)" },
+            { "korean": "나", "braille": "⠉", "description": "나 전부 약자 (초성 ㄴ만)" },
+            { "korean": "다", "braille": "⠊", "description": "다 전부 약자 (초성 ㄷ만)" },
+            { "korean": "마", "braille": "⠑", "description": "마 전부 약자 (초성 ㅁ만)" },
+            { "korean": "바", "braille": "⠘", "description": "바 전부 약자 (초성 ㅂ만)" },
+            { "korean": "사", "braille": "⠠", "description": "사 전부 약자 (초성 ㅅ만)" },
+            { "korean": "자", "braille": "⠨", "description": "자 전부 약자 (초성 ㅈ만)" },
+            { "korean": "카", "braille": "⠋", "description": "카 전부 약자 (초성 ㅋ만)" },
+            { "korean": "타", "braille": "⠓", "description": "타 전부 약자 (초성 ㅌ만)" },
+            { "korean": "파", "braille": "⠙", "description": "파 전부 약자 (초성 ㅍ만)" },
+            { "korean": "하", "braille": "⠚", "description": "하 전부 약자 (초성 ㅎ만)" }
+          ]
+        },
+        {
+          "title": "전부 약자 (기타)",
+          "note": "기타 자주 쓰이는 단어의 약자",
+          "examples": [
             { "korean": "것", "braille": "특수", "description": "것 전부 약자" },
             { "korean": "이", "braille": "⠊", "description": "이 전부 약자" },
             { "korean": "그", "braille": "⠁", "description": "그 전부 약자" }
