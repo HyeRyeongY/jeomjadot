@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { translateToBraille, checkHealth, type TranslateResponse } from '@/app/lib/api';
+import BrailleRulesModal from './BrailleRulesModal';
 
 export default function BrailleConverter() {
   const [inputText, setInputText] = useState('');
@@ -11,6 +12,7 @@ export default function BrailleConverter() {
   const [apiStatus, setApiStatus] = useState<'checking' | 'online' | 'offline'>('checking');
   const [liblouisAvailable, setLiblouisAvailable] = useState(false);
   const [useLiblouis, setUseLiblouis] = useState(false);
+  const [showRulesModal, setShowRulesModal] = useState(false);
 
   // API 상태 확인
   useEffect(() => {
@@ -73,23 +75,45 @@ export default function BrailleConverter() {
     <div className="w-full max-w-4xl mx-auto space-y-6">
       {/* API 상태 표시 */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div
-            className={`w-3 h-3 rounded-full ${
-              apiStatus === 'online'
-                ? 'bg-green-500'
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-3 h-3 rounded-full ${
+                apiStatus === 'online'
+                  ? 'bg-green-500'
+                  : apiStatus === 'offline'
+                  ? 'bg-red-500'
+                  : 'bg-yellow-500 animate-pulse'
+              }`}
+            />
+            <span className="text-sm text-gray-600">
+              {apiStatus === 'online'
+                ? 'API 연결됨'
                 : apiStatus === 'offline'
-                ? 'bg-red-500'
-                : 'bg-yellow-500 animate-pulse'
-            }`}
-          />
-          <span className="text-sm text-gray-600">
-            {apiStatus === 'online'
-              ? 'API 연결됨'
-              : apiStatus === 'offline'
-              ? 'API 연결 실패 (백엔드를 실행해주세요)'
-              : 'API 확인 중...'}
-          </span>
+                ? 'API 연결 실패 (백엔드를 실행해주세요)'
+                : 'API 확인 중...'}
+            </span>
+          </div>
+
+          <button
+            onClick={() => setShowRulesModal(true)}
+            className="flex items-center gap-1 px-3 py-1 text-sm text-blue-600 hover:text-blue-800 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            점자 규칙 보기
+          </button>
         </div>
 
         {liblouisAvailable && (
@@ -169,6 +193,12 @@ export default function BrailleConverter() {
           </div>
         </div>
       )}
+
+      {/* 점자 규칙 모달 */}
+      <BrailleRulesModal
+        isOpen={showRulesModal}
+        onClose={() => setShowRulesModal(false)}
+      />
     </div>
   );
 }
